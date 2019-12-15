@@ -13,7 +13,7 @@ class TestTaxiMethods(unittest.TestCase):
         self.df = taxi.load_data_frame(self.path, self.anchor_date,
                                        self.min_delta, self.max_delta)
 
-    def test_ym_list(self):
+    def test_year_month_list(self):
         min_delta = pd.to_timedelta('90 days')
         max_delta = pd.to_timedelta('60 days')
         ym = taxi.year_month_in_interval(self.anchor_date, min_delta,

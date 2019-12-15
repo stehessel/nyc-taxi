@@ -30,7 +30,7 @@ test_data_frame_loading (taxi_test.TestTaxiMethods) ... ok
 test_file_validation (taxi_test.TestTaxiMethods) ... ok
 test_interval_filter (taxi_test.TestTaxiMethods) ... ok
 test_rolling_mean (taxi_test.TestTaxiMethods) ... ok
-test_ym_list (taxi_test.TestTaxiMethods) ... ok
+test_year_month_list (taxi_test.TestTaxiMethods) ... ok
 
 ----------------------------------------------------------------------
 Ran 5 tests in 0.034s
