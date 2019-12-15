@@ -33,7 +33,7 @@ def year_month_in_interval(anchor_date: datetime.datetime,
 
 
 def download_taxi_data(year: int, month: int, output: str):
-    """Download NYC taxi data and store it in output file"""
+    """Download NYC taxi data and store in output file"""
     url = 'https://s3.amazonaws.com/nyc-tlc/trip+data/'
     filename = f'yellow_tripdata_{year:04}-{month:02}.csv'
     response = requests.get(url + filename, allow_redirects=True)
@@ -55,7 +55,7 @@ def validate_data_files(ym_list: [(int, int)]) -> [str]:
 def filter_by_interval(df: pd.DataFrame, anchor_date: datetime.datetime,
                        min_delta: pd.Timedelta,
                        max_delta: pd.Timedelta) -> pd.DataFrame:
-    """Filter data by taxi pickup date in time period"""
+    """Filter data by taxi pickup date to match time period"""
     return df[(df.tpep_pickup_datetime - anchor_date >= -min_delta)
               & (df.tpep_pickup_datetime - anchor_date < max_delta)]
 
