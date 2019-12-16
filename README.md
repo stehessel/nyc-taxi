@@ -33,7 +33,7 @@ test_rolling_mean (taxi_test.TestTaxiMethods) ... ok
 test_year_month_list (taxi_test.TestTaxiMethods) ... ok
 
 ----------------------------------------------------------------------
-Ran 5 tests in 0.034s
+Ran 5 tests in 69.462s
 
 OK
 ```
