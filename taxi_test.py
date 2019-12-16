@@ -30,7 +30,8 @@ class TestTaxiMethods(unittest.TestCase):
         self.assertEqual(self.df.shape, (8, 2))
 
     def test_interval_filter(self):
-        df = taxi.filter_by_interval(self.df, self.anchor_date+self.max_delta/2,
+        df = taxi.filter_by_interval(self.df,
+                                     self.anchor_date+self.max_delta/2,
                                      self.max_delta/4, self.max_delta/2)
         self.assertEqual(df.shape, (4, 2))
 

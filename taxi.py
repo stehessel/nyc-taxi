@@ -38,7 +38,8 @@ def download_taxi_data(year: int, month: int, output: str):
     filename = f'yellow_tripdata_{year:04}-{month:02}.csv'
     response = requests.get(url + filename, allow_redirects=True)
     response.raise_for_status()
-    open(output, 'wb').write(response.content)
+    with open(output, 'wb') as file:
+        file.write(response.content)
 
 
 def validate_data_files(ym_list: [(int, int)]) -> [str]:
@@ -87,21 +88,27 @@ def get_rolling_mean(df: pd.DataFrame, anchor_date: datetime.datetime,
     return rolling_mean
 
 
-if __name__ == "__main__":
+def plot_rolling_mean(data: [float]):
+    """Plot rolling mean"""
+    plt.plot(range(len(data)), data)
+    plt.show()
+
+
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('anchor_date',
-                        help=('anchor date of the total time interval '
-                              '[anchor_date-min_delta, anchor_date+max_delta)'
-                              ', e.g. \'2019-03-01 00:00:00\''))
+                        help=("anchor date of the total time interval "
+                              "[anchor_date-min_delta, anchor_date+max_delta)"
+                              ", e.g. '2019-03-01 00:00:00'"))
     parser.add_argument('min_delta',
-                        help='lower bound of the time period, e.g. \'0 days\'')
+                        help="lower bound of the time period, e.g. '0 days'")
     parser.add_argument('max_delta',
-                        help='upper bound of the time period, e.g. \'60 days\'')
+                        help="upper bound of the time period, e.g. '60 days'")
     parser.add_argument('window',
-                        help='sliding window size, e.g. \'45 days\'')
+                        help="sliding window size, e.g. '45 days'")
     parser.add_argument('step',
-                        help='step size of the sliding window, e.g. \'1 day\'')
-    parser.add_argument('--plot', help='generate a plot of the rolling mean',
+                        help="step size of the sliding window, e.g. '1 day'")
+    parser.add_argument('--plot', help="generate a plot of the rolling mean",
                         action='store_true')
     args = parser.parse_args()
 
@@ -111,6 +118,13 @@ if __name__ == "__main__":
     window = pd.to_timedelta(args.window)
     step = pd.to_timedelta(args.step)
 
+    if any(td < pd.to_timedelta('0') for td in (min_delta, max_delta)):
+        print("Time bounds must be non-negative.")
+        return
+    if any(td < pd.to_timedelta('0') for td in (window, step)):
+        print("Time windows must be positive.")
+        return
+
     ym_list = year_month_in_interval(anchor_date, min_delta, max_delta)
     file_names = validate_data_files(ym_list)
     df = load_data_frame(file_names, anchor_date, min_delta, max_delta)
@@ -118,5 +132,8 @@ if __name__ == "__main__":
                                     max_delta, window, step)
     print(rolling_mean)
     if args.plot:
-        plt.plot(range(len(rolling_mean)), rolling_mean)
-        plt.show()
+        plot_rolling_mean(rolling_mean)
+
+
+if __name__ == "__main__":
+    main()
