@@ -101,22 +101,22 @@ def main():
                               "[anchor_date-min_delta, anchor_date+max_delta)"
                               ", e.g. '2019-03-01 00:00:00'"))
     parser.add_argument('min_delta',
-                        help="lower bound of the time period, e.g. '0 days'")
+                        help="lower bound of the time period in days, e.g. 0")
     parser.add_argument('max_delta',
-                        help="upper bound of the time period, e.g. '60 days'")
+                        help="upper bound of the time period in days, e.g. 60")
     parser.add_argument('window',
-                        help="sliding window size, e.g. '45 days'")
+                        help="sliding window size in days, e.g. 45")
     parser.add_argument('step',
-                        help="step size of the sliding window, e.g. '1 day'")
+                        help="step size of the sliding window in days, e.g. 1")
     parser.add_argument('--plot', help="generate a plot of the rolling mean",
                         action='store_true')
     args = parser.parse_args()
 
     anchor_date = pd.to_datetime(args.anchor_date)
-    min_delta = pd.to_timedelta(args.min_delta)
-    max_delta = pd.to_timedelta(args.max_delta)
-    window = pd.to_timedelta(args.window)
-    step = pd.to_timedelta(args.step)
+    min_delta = pd.to_timedelta(float(args.min_delta), unit='d')
+    max_delta = pd.to_timedelta(float(args.max_delta), unit='d')
+    window = pd.to_timedelta(float(args.window), unit='d')
+    step = pd.to_timedelta(float(args.step), unit='d')
 
     if any(td < pd.to_timedelta('0') for td in (min_delta, max_delta)):
         print("Time bounds must be non-negative.")
