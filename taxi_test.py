@@ -21,11 +21,6 @@ class TestTaxiMethods(unittest.TestCase):
         expected = [(2018, 12), (2019, 1), (2019, 2), (2019, 3), (2019, 4)]
         self.assertEqual(ym, expected)
 
-    def test_file_validation(self):
-        path = taxi.validate_data_files([(2019, 3), (2019, 4)])
-        self.assertEqual(path, ['yellow_tripdata_2019-03.csv',
-                         'yellow_tripdata_2019-04.csv'])
-
     def test_data_frame_loading(self):
         self.assertEqual(self.df.shape, (8, 2))
 
